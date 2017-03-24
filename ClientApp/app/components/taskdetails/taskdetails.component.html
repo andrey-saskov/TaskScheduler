@@ -1,0 +1,29 @@
+<div *ngIf="task">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3>Task details</h3>
+        </div>
+    <div class="panel-body">
+        <div>
+            <span>Name</span>
+            <p>{{task.name}}</p>
+        </div>
+        <div>
+            <span>Description</span>
+            <p>{{task.description}}</p>
+        </div>
+        <div>
+            <span>Status</span>
+            <p>{{task.isActive ? "Active" : "Completed"}}</p>
+        </div>
+        <div>
+            <span>Priority</span>
+            <p>{{task.priority}}</p>
+        </div>
+        <div>
+            <span>Added</span>
+            <p>{{task.scheduledTime | date: getDateFormat()}}</p>
+        </div>
+    </div>
+    </div>
+</div>

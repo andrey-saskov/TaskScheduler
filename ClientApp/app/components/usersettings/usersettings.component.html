@@ -1,0 +1,13 @@
+<h1>User settings</h1>
+<form (ngSubmit)="onSubmit()" #settingsForm="ngForm">
+    <div class="form-group">
+        <label for="altRowsColor">Alt Rows Color</label>
+        <input type="color" class="form-control" id="altRowsColor" [(ngModel)]="model.altRowsColor" name="altRowsColor" #altRowsColor="ngModel" />
+    </div>
+    <div class="form-group">
+        <label for="name">Date Format</label>
+        <input type="text" class="form-control" id="dateFormat" [(ngModel)]="model.dateFormat" name="dateFormat" #dateFormat="ngModel" />
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!settingsForm.form.valid">Save</button>
+</form>

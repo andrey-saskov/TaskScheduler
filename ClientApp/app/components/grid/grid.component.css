@@ -1,0 +1,41 @@
+tr:hover  {
+  background-color: #bce8f1 !important;
+}
+thead tr:hover  {
+  background-color: inherit !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+table.scroll {
+    width: auto;
+    table-layout:fixed;
+}
+
+table.scroll tbody,
+table.scroll thead tr {
+  display: block; 
+}
+
+table.scroll tbody {
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+table.scroll tbody td,
+table.scroll thead th {
+    width: 200px;
+    overflow: hidden;
+    /*text-overflow: clip;
+    white-space: nowrap;*/
+}
+
+tr.top-row td {
+  vertical-align: middle;
+}
+
+tr.bottom-row td {
+  vertical-align: top;
+}

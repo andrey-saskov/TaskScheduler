@@ -1,0 +1,13 @@
+<h1>Tasks</h1>
+
+<p *ngIf="!tasks"><em>Loading...</em></p>
+
+<div  class="col-sm-9">
+    <div>
+        <button type="submit" class="btn" [class.btn-success]="isSelected('All')" (click)="onFilter('All');">All</button>
+        <button type="submit" class="btn" [class.btn-success]="isSelected('Active')" (click)="onFilter('Active');">Active</button>
+        <button type="submit" class="btn" [class.btn-success]="isSelected('Completed')" (click)="onFilter('Completed');">Completed</button>
+    </div>
+    <grid [tasks]="tasks" [initialTaskId]="initialTaskId" (onOrderChange)="onOrderChange()" (onTaskSelected)="onClickTask($event)" (onTaskComplete)="onComplete($event)" (onTaskRemove)="onRemove($event)"></grid>
+    <taskdetails [task]="selectedTask"></taskdetails>
+</div>
