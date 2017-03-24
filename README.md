@@ -24,7 +24,9 @@ Node.js
 
      dotnet restore
 
-To run site use "dotnet run" command.
+     set ASPNETCORE_ENVIRONMENT=Development
+
+     dotnet run
 
 ## License
 
