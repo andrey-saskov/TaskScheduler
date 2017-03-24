@@ -38,11 +38,13 @@ namespace WebApplicationBasic.Controllers
                     break;
             }
 
-            IOrderedQueryable<ScheduledTask> query = sortOrder.ToLower() == "desc" ?
-                _context.ScheduledTasks.OrderByDescending(orderByExpression)
-                : _context.ScheduledTasks.OrderBy(orderByExpression);
+            var a = _context.ScheduledTasks.Where(t => !t.IsDeleted && (filter == "All" || (t.IsActive == activeFiltered)));
 
-            return await query.Where(t => !t.IsDeleted && (filter == "All" || (t.IsActive == activeFiltered))).ToListAsync();
+            return  sortOrder.ToLower() == "desc" ?
+                await a.OrderByDescending(orderByExpression).ToListAsync()
+                : await a.OrderBy(orderByExpression).ToListAsync();
+
+            // return await query.Where(t => !t.IsDeleted && (filter == "All" || (t.IsActive == activeFiltered))).ToListAsync();
         }
 
         [HttpGet("[action]/{taskId}/{filter}/{orderBy}/{sortOrder}")]

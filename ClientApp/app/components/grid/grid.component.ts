@@ -96,12 +96,12 @@ export class GridComponent implements OnInit, OnChanges {
     }
 
     protected onComplete(task: Task, event): void {
-        event.stopPropagation();
+        if (event) event.stopPropagation();
         this.onTaskComplete.emit(task);
     }
 
     protected onRemove(task: Task, event): void {
-        event.stopPropagation();
+        if (event) event.stopPropagation();
         this.onTaskRemove.emit(task);
     }
 
@@ -114,6 +114,6 @@ export class GridComponent implements OnInit, OnChanges {
     }
 
     protected getCountdownValue(task: Task): number {
-        return ParseDate(task.scheduledTime).getTime() - this.userSettingsService.userSettings.currentDate.getTime();
+        return ParseDate(task.scheduledDate).getTime() - this.userSettingsService.userSettings.currentDate.getTime();
     }
 }

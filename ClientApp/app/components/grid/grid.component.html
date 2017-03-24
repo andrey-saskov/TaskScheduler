@@ -9,10 +9,10 @@
         </tr>
     </thead>
     <tbody *ngIf="tasks" #scrollContainer (scroll)="onScroll($event)">
-        <tr (click)="onClickTask(firstTask())" id="{{firstTask().id}}">
+        <tr *ngIf="firstTask()" (click)="onClickTask(firstTask())" id="{{firstTask().id}}">
             <td #scrollTop>{{ firstTask().name }}</td>
             <td>{{ firstTask().priority }}</td>
-            <td>{{ firstTask().scheduledTime | date: getDateFormat() }}</td>
+            <td>{{ firstTask().creationDate | date: getDateFormat() }}</td>
             <td><countdown [task]="firstTask()" [currentDate]="currentDate"></countdown></td>
             <td *ngIf="firstTask().isActive"><a (click)="onComplete(firstTask())">Complete</a></td>
             <td *ngIf="!firstTask().isActive"><a (click)="onRemove(firstTask())">Remove</a></td>
@@ -20,15 +20,15 @@
         <tr *ngFor="let task of displayedTasks.slice(1, displayedTasks.length - 1); let i = index;" [style.background-color]="getRowBackgroundColor(i+1)" (click)="onClickTask(task)" id="{{task.id}}">
             <td>{{ task.name }}</td>
             <td>{{ task.priority }}</td>
-            <td>{{ task.scheduledTime | date: getDateFormat() }}</td>
+            <td>{{ task.creationDate | date: getDateFormat() }}</td>
             <td><countdown [task]="task" [currentDate]="currentDate"></countdown></td>
             <td *ngIf="task.isActive"><a (click)="onComplete(task, $event)">Complete</a></td>
             <td *ngIf="!task.isActive"><a (click)="onRemove(task, $event)">Remove</a></td>
         </tr>
-        <tr *ngIf="lastTask()" [style.background-color]="getRowBackgroundColor(displayedTasks.length - 1)" (click)="onClickTask(lastTask())" id="{{lastTask().id}}">
+        <tr *ngIf="lastTask() && displayedTasks.length > 2" [style.background-color]="getRowBackgroundColor(displayedTasks.length - 1)" (click)="onClickTask(lastTask())" id="{{lastTask().id}}">
             <td #scrollBottom>{{ lastTask().name }}</td>
             <td>{{ lastTask().priority }}</td>
-            <td>{{ lastTask().scheduledTime | date: getDateFormat() }}</td>
+            <td>{{ lastTask().creationDate | date: getDateFormat() }}</td>
             <td><countdown [task]="lastTask()" [currentDate]="currentDate"></countdown></td>
             <td *ngIf="lastTask().isActive"><a (click)="onComplete(lastTask())">Complete</a></td>
             <td *ngIf="!lastTask().isActive"><a (click)="onRemove(lastTask())">Remove</a></td>

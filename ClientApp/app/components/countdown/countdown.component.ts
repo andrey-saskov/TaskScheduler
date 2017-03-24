@@ -13,5 +13,5 @@ export class CountdownComponent {
     private currentDate: Date;
 
     protected getCountdownValue(): number {
-        return ParseDate(this.task.scheduledTime).getTime() - this.currentDate.getTime();
+        return ParseDate(this.task.scheduledDate).getTime() - this.currentDate.getTime();
     }}

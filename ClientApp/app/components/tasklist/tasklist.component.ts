@@ -29,7 +29,7 @@ export class TaskListComponent implements OnInit {
     private selectedTask: Task;
 
     constructor(private taskService: TaskService, private updateService: UpdateService, private userSettingsService: UserSettingsService, private router: Router, private location: Location) {
-        router.events.subscribe((val) => { this.initializeGridScroll(); });
+        //router.events.subscribe((val) => { this.initializeGridScroll(); });
     }
 
     ngOnInit(): void {
@@ -45,7 +45,7 @@ export class TaskListComponent implements OnInit {
         if (this.tasks) {
             this.initialTaskId = +this.location.path();
             this.selectedTask = this.tasks.filter(t => t.id == this.initialTaskId)[0];
-            this.grid.initializeScroll(this.selectedTask);
+            //this.grid.initializeScroll(this.selectedTask);
         }
     }
 
@@ -63,10 +63,10 @@ export class TaskListComponent implements OnInit {
     }
 
     protected getTasks(): void {
-        let testtasks = [];
-        for (let i = 0; i < 2200; i++) {
-            testtasks.push(new Task(i, 'sdfsdf ' + i, 'sdf sdf sdfsd fsd fsdf sdf sdf' + i, i, this.formatDate(new Date()), true, false));
-        }
+        // let testtasks = [];
+        // for (let i = 0; i < 2200; i++) {
+        //     testtasks.push(new Task(i, 'sdfsdf ' + i, 'sdf sdf sdfsd fsd fsdf sdf sdf' + i, i, this.formatDate(new Date()), this.formatDate(new Date()), true, false));
+        // }
 
         this.taskService.getTasks(this.userSettingsService.userSettings).subscribe(
             //tasks => { this.tasks = testtasks; },

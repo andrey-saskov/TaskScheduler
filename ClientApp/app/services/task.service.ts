@@ -22,8 +22,11 @@ export class TaskService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions( { headers: headers } );
 
+        task.creationDate = new Date(task.creationDate).toUTCString();
+        task.scheduledDate = new Date(task.scheduledDate).toUTCString();
         let jsonTask = JSON.stringify(task);
-        return this.http.post(this.taskServiceUrl + 'addtask', task, options)
+        console.log("try submt: " + jsonTask);
+        return this.http.post(this.taskServiceUrl + 'addtask', jsonTask, options)
             .share()
             .map(this.extractData)
             .catch(this.handleError);

@@ -22,12 +22,15 @@
     </div>
 
     <div class="form-group">
-        <label for="scheduledTime">Scheduled Time</label>
-        <input type="datetime-local" class="form-control" id="scheduledTime" [(ngModel)]="model.scheduledTime" name="scheduledTime" #scheduledTime="ngModel" required />
-        <div [hidden]="scheduledTime.valid || scheduledTime.pristine" class="alert alert-danger">
+        <label for="scheduledDate">Scheduled Time</label>
+        <input type="datetime-local" class="form-control" id="scheduledDate" (change)="onScheduledTimeSelected($event)" (ngModel)="model.scheduledDate" name="scheduledDate" #scheduledDate="ngModel" required />
+        <div [hidden]="scheduledDate.valid || scheduledDate.pristine" class="alert alert-danger">
           Scheduled Time is required
         </div>
     </div>
+
+
+
     <button type="submit" class="btn btn-success"  (click)="onSubmit(); taskForm.form.reset();" [disabled]="!taskForm.form.valid">Submit</button>
 
     <div [innerHTML]="status"></div>

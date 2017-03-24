@@ -19,7 +19,7 @@ namespace WebApplicationBasic.Data
             for (int i = 0; i < 5000; i++)
             {
                 context.ScheduledTasks.Add(
-                    new ScheduledTask{Name = "Lorem ipsum", Description = "Tum, Quintus et Pomponius cum idem se velle dixissent, Piso exorsus est.", Priority = i % 100 + 1, ScheduledTime=DateTime.Now.AddDays(1), IsActive = i % 3 == 0}
+                    new ScheduledTask{Name = "Lorem ipsum", Description = "Tum, Quintus et Pomponius cum idem se velle dixissent, Piso exorsus est.", Priority = i % 100 + 1, CreationDate = DateTime.Now, ScheduledDate = DateTime.Now.AddDays(1), IsActive = i % 3 == 0}
                 );
             }
             context.SaveChanges();

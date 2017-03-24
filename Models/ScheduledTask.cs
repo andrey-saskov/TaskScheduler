@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace WebApplicationBasic.Models
 {
@@ -9,7 +8,10 @@ namespace WebApplicationBasic.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int Priority { get; set; }
-        public DateTime ScheduledTime { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public DateTime ScheduledDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
     }
