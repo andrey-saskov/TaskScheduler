@@ -24,7 +24,7 @@ Node.js
 
      dotnet restore
 
-     set ASPNETCORE_ENVIRONMENT=Development
+     dotnet publish
 
      dotnet run
 
