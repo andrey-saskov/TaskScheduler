@@ -19,7 +19,9 @@ Node.js
 
 1. Clone project files to local environment.
 2. In command console run:
+
      npm i
+
      dotnet restore
 
 To run site use "dotnet run" command.
