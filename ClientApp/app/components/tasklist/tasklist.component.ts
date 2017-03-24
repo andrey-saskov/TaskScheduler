@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { Router  } from '@angular/router';
 import { isBrowser } from 'angular2-universal';
-import { Http } from '@angular/http';
 import { Task } from '../../models/task';
 import { GridComponent } from '../grid/grid.component';
+
 import { TaskService } from '../../services/task.service';
 import { UpdateService, UpdateState } from '../../services/update.service';
 import { UserSettingsService } from '../../services/usersettings.service';
@@ -74,11 +74,6 @@ export class TaskListComponent implements OnInit {
             error => { console.log('Can\'t get data from server'); },
             () => { this.initializeGridScroll(); }
         );
-    }
-
-    private formatDate(date: Date): string {
-        let formater = new Intl.NumberFormat("en", { minimumIntegerDigits: 2 });
-        return date.getFullYear() + "-" + formater.format(date.getMonth() + 1) + "-" + formater.format(date.getDate()) + "T" + formater.format(date.getHours()) + ":" + formater.format(date.getMinutes());
     }
 
     private onClickTask(task: Task): void {

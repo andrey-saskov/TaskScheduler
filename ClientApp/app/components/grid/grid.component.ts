@@ -2,7 +2,6 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, E
 import { isBrowser } from 'angular2-universal';
 import { Task } from '../../models/task';
 import { UserSettingsService } from '../../services/usersettings.service';
-import { ParseDate } from '../../shared/dateParser';
 
 import { Observable, Subscription } from 'rxjs/Rx';
 
@@ -114,6 +113,6 @@ export class GridComponent implements OnInit, OnChanges {
     }
 
     protected getCountdownValue(task: Task): number {
-        return ParseDate(task.scheduledDate).getTime() - this.userSettingsService.userSettings.currentDate.getTime();
+        return task.scheduledDate.getTime() - this.userSettingsService.userSettings.currentDate.getTime();
     }
 }

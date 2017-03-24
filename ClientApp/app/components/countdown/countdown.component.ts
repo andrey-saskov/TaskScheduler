@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Task } from '../../models/task';
-import { ParseDate } from '../../shared/dateParser';
 
 @Component({
     selector: 'countdown',
@@ -13,5 +12,6 @@ export class CountdownComponent {
     private currentDate: Date;
 
     protected getCountdownValue(): number {
-        return ParseDate(this.task.scheduledDate).getTime() - this.currentDate.getTime();
-    }}
+        return this.task.scheduledDate.getTime() - this.currentDate.getTime();
+    }
+}

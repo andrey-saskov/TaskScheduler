@@ -4,8 +4,8 @@ export class Task {
         public name: string,
         public description: string,
         public priority: number,
-        public creationDate: string,
-        public scheduledDate: string,
+        public creationDate: Date,
+        public scheduledDate: Date,
         public isActive: boolean,
         public isDeleted: boolean
     ) { }
