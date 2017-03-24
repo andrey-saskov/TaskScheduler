@@ -12,6 +12,7 @@ Project builded using these frameworks:
 ## Prerequisites
 
 Node.js
+
 .Net Core SDK (https://go.microsoft.com/fwlink/?linkid=843448)
 
 ## Installation
