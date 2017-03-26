@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace WebApplicationBasic.Handlers
 {
     public class SocketHandler
     {
-        private static readonly List<WebSocket> sockets = new List<WebSocket>();
+        private static readonly ConcurrentBag<WebSocket> sockets = new ConcurrentBag<WebSocket>();
         WebSocket socket;
 
         SocketHandler(WebSocket socket)
@@ -34,12 +34,12 @@ namespace WebApplicationBasic.Handlers
             }
         }
 
-        static async Task Acceptor(HttpContext hc, Func<Task> n)
+        static async Task Acceptor(HttpContext context, Func<Task> n)
         {
-             if (!hc.WebSockets.IsWebSocketRequest)
+             if (!context.WebSockets.IsWebSocketRequest)
                 return;
 
-            var socket = await hc.WebSockets.AcceptWebSocketAsync();
+            var socket = await context.WebSockets.AcceptWebSocketAsync();
             var h = new SocketHandler(socket);
             sockets.Add(socket);
             await h.EchoLoop();

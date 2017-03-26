@@ -7,7 +7,6 @@ import { isBrowser } from 'angular2-universal';
 @Injectable() 
 export class WebSocketService { 
 	private subject: Subject<MessageEvent>; 
-	private subjectData: Subject<number>; 
 
 	public connect(url: string): Subject<MessageEvent> { 
 		if (!this.subject && isBrowser) { 
@@ -30,7 +29,7 @@ export class WebSocketService {
 
 		let observer = { 
 			next: (data: Object) => { 
-				if (ws.readyState === WebSocket.OPEN) { 
+				if (ws.readyState === WebSocket.OPEN) {
 					ws.send(JSON.stringify(data)); 
 				} 
 			} 

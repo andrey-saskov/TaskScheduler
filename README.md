@@ -28,6 +28,13 @@ Node.js
 
      dotnet run
 
+To run in development mode:
+
+     set ASPNETCORE_ENVIRONMENT=Development
+
+     dotnet run
+
+
 ## License
 
 A short snippet describing the license (MIT, Apache, etc.)

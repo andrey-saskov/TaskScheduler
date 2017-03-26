@@ -22,8 +22,6 @@ export class TaskService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions( { headers: headers } );
 
-        // let jsonTask = JSON.stringify(task);
-        // console.log("try submt: " + jsonTask);
         return this.http.post(this.taskServiceUrl + 'addtask', task, options)
             .share()
             .map(this.extractData)
@@ -49,8 +47,8 @@ export class TaskService {
         let data = body || { };
         if (data && data.length) {
             data.forEach((d) => {
-                d.creationDate = new Date(d.creationDate);
-                d.scheduledDate = new Date(d.scheduledDate);
+                d.creationDate = new Date(new Date(d.creationDate).getTime() + new Date().getTimezoneOffset() * 60 * 1000 );
+                d.scheduledDate = new Date(new Date(d.scheduledDate).getTime() + new Date().getTimezoneOffset() * 60 * 1000 );
             });
         }
         return data;

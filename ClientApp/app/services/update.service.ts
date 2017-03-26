@@ -10,8 +10,14 @@ import 'rxjs/add/operator/filter';
 
 const SERVER_URL = 'ws://localhost:5000/ws'; 
 
+export enum ActionType {
+    Add,
+    Complete,
+    Remove
+}
+
 export interface UpdateState { 
-	updated: boolean 
+	action: ActionType 
 } 
 
 @Injectable() 
@@ -23,9 +29,7 @@ export class UpdateService {
 			this.updated = <Subject<UpdateState>>this.wsService 
 				.connect(SERVER_URL) 
 				.map((response: MessageEvent): UpdateState => { 
-					return { 
-						updated: true
-					} 
+					return JSON.parse(response.data)
 				});
 		}
 	} 

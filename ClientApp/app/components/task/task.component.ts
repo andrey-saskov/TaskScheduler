@@ -3,6 +3,7 @@ import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 
 import { Observable, Subscription } from 'rxjs/Rx';
+import { UpdateService, ActionType } from '../../services/update.service';
 
 
 @Component({
@@ -15,12 +16,9 @@ export class TaskComponent {
     private lastResult;
     private status = "";
 
-    constructor(private taskService: TaskService) { }
+    constructor(private taskService: TaskService, private updateService: UpdateService) { }
 
     onScheduledTimeSelected(e) {
-        // console.log('onScheduledTimeSelected e.srcEl ' + e.srcElement.value);
-        // console.log('onScheduledTimeSelected new date ' + new Date(e.srcElement.value));
-        // console.log('onScheduledTimeSelected creation date ' + this.model.creationDate);
         this.model.scheduledDate = new Date(e.srcElement.value);
     }
 
@@ -35,7 +33,9 @@ export class TaskComponent {
     private onSubmitComplete() {
         if (this.lastResult && this.lastResult.id) {
             this.model = TaskComponent.initialTaskValue();
-            this.status = "Task <a href='tasklist#" + this.lastResult.id + "'>" + this.lastResult.name + "</a> have been added."
+            this.status = "Task <a href='tasklist#" + this.lastResult.id + "'>" + this.lastResult.name + "</a> have been added.";
+
+            this.updateService.updated.next( { action: ActionType.Add } );
         }
     }
 

@@ -6,10 +6,11 @@ import { Task } from '../../models/task';
 import { GridComponent } from '../grid/grid.component';
 
 import { TaskService } from '../../services/task.service';
-import { UpdateService, UpdateState } from '../../services/update.service';
+import { UpdateService, UpdateState, ActionType } from '../../services/update.service';
 import { UserSettingsService } from '../../services/usersettings.service';
 
 import { Observable, Subscription } from 'rxjs/Rx';
+
 
 @Component({
     selector: 'task-list',
@@ -28,8 +29,12 @@ export class TaskListComponent implements OnInit {
     private initialTaskId: number;
     private selectedTask: Task;
 
+    private readonly FilterAll = "All";
+    private readonly FilterActive = "Active";
+    private readonly FilterCompleted = "Completed";
+
     constructor(private taskService: TaskService, private updateService: UpdateService, private userSettingsService: UserSettingsService, private router: Router, private location: Location) {
-        //router.events.subscribe((val) => { this.initializeGridScroll(); });
+        //router.events.subscribe((val) => { this.initializeGrid(); });
     }
 
     ngOnInit(): void {
@@ -37,15 +42,15 @@ export class TaskListComponent implements OnInit {
             this.timerService = Observable.timer(0, 60000);
             this.subService = this.timerService.subscribe(t => this.getTasks());
 
-            this.updateCheckService = this.updateService.updated.subscribe(u => { this.getTasks(); }); 
+            this.updateCheckService = this.updateService.updated.subscribe(update => { this.updateIfNeeded(update); }); 
         }
     }
 
-    initializeGridScroll() {
+    initializeGrid() {
         if (this.tasks) {
             this.initialTaskId = +this.location.path();
             this.selectedTask = this.tasks.filter(t => t.id == this.initialTaskId)[0];
-            //this.grid.initializeScroll(this.selectedTask);
+            // this.grid.initializeScroll(this.selectedTask);
         }
     }
 
@@ -54,12 +59,12 @@ export class TaskListComponent implements OnInit {
         this.getTasks();
     }
 
-    protected isSelected(filter: string): boolean {
-        return this.userSettingsService.userSettings.filter == filter;
-    }
-
     protected onOrderChange() {
         this.getTasks();
+    }
+
+    protected isSelected(filter: string): boolean {
+        return this.userSettingsService.userSettings.filter == filter;
     }
 
     protected getTasks(): void {
@@ -72,7 +77,7 @@ export class TaskListComponent implements OnInit {
             //tasks => { this.tasks = testtasks; },
             tasks => { this.tasks = tasks; },
             error => { console.log('Can\'t get data from server'); },
-            () => { this.initializeGridScroll(); }
+            () => { this.initializeGrid(); }
         );
     }
 
@@ -85,7 +90,7 @@ export class TaskListComponent implements OnInit {
         this.taskService.completeTask(task, this.userSettingsService.userSettings).subscribe(
             tasks => { this.tasks = tasks; },
             error => { console.log('Can\'t get data from server'); },
-            () => { this.updateService.updated.next( { updated: true } ); }
+            () => { this.updateService.updated.next( { action: ActionType.Complete } ); }
         );
     }
 
@@ -93,7 +98,15 @@ export class TaskListComponent implements OnInit {
         this.taskService.removeTask(task, this.userSettingsService.userSettings).subscribe(
             tasks => { this.tasks = tasks; },
             error => { console.log('Can\'t get data from server'); },
-            () => { this.updateService.updated.next( { updated: true } ); }
+            () => { this.updateService.updated.next( { action: ActionType.Remove } ); }
         );
+    }
+
+    protected updateIfNeeded(update: UpdateState) {
+        if (this.userSettingsService.userSettings.filter == this.FilterAll
+            || (this.userSettingsService.userSettings.filter == this.FilterActive && update.action != ActionType.Remove)
+            || (this.userSettingsService.userSettings.filter == this.FilterCompleted && update.action != ActionType.Add)) {
+            this.getTasks();
+        }
     }
 }

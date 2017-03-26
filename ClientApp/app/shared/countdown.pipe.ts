@@ -15,16 +15,18 @@ export class CountdownPipe implements PipeTransform {
     ];
 
     public transform(value: number, format: string): string {
-        let result = "";
+        let parts = [];
         let timeLeft = Math.floor(value / this.miliseconds);
-        return this.Rec(timeLeft, 0);
+        let formatedValue =  this.format(timeLeft, 0, parts);
+        return parts.length > 1 ? parts.pop() + " " + parts.pop() : parts.pop();
     }
 
-    private Rec(timeLeft: number, level: number): string {
+    private format(timeLeft: number, level: number, parts: string[]): void {
         if (timeLeft > 0 && level < this.formatParts.length) {
-            return this.Rec(Math.floor(timeLeft / this.formatParts[level].divider), level + 1)
-                + ((timeLeft % this.formatParts[level].divider) > 0 ? " " + ((timeLeft % this.formatParts[level].divider) + this.formatParts[level].dimension) : "");
+            if ((timeLeft % this.formatParts[level].divider) > 0) {
+                parts.push(((timeLeft % this.formatParts[level].divider) + this.formatParts[level].dimension));
+            }
+            this.format(Math.floor(timeLeft / this.formatParts[level].divider), level + 1, parts);
         }
-        return "";
     }
 }
