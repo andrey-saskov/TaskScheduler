@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Task } from '../models/task';
+import { UserSettingsService } from './usersettings.service';
 import { UserSettings } from '../models/usersettings';
 
 import { Observable } from 'rxjs/Observable';
@@ -9,10 +10,10 @@ import { Observable } from 'rxjs/Observable';
 export class TaskService {
     private taskServiceUrl = '/api/ScheduledTask/';
 
-    constructor (private http: Http) {}
+    constructor (private http: Http, private userSettingsService: UserSettingsService) {}
 
-    public getTasks(filter: UserSettings): Observable<Task[]> {
-        return this.http.get(this.taskServiceUrl + 'tasklist/' + filter.filter + '/' + filter.sortColumn + '/' + (filter.sortAsc ? "Asc" : "Desc"))
+    public getTasks(): Observable<Task[]> {
+        return this.http.get(this.taskServiceUrl + 'tasklist' + this.filterQueryString())
             .share()
             .map(this.extractData)
             .catch(this.handleError);
@@ -28,15 +29,15 @@ export class TaskService {
             .catch(this.handleError);
     }
 
-    public completeTask(task: Task, filter: UserSettings): Observable<Task[]> {
-        return this.http.get(this.taskServiceUrl + 'completetask/' + task.id + '/' + filter.filter + '/' + filter.sortColumn + '/' + (filter.sortAsc ? "Asc" : "Desc"))
+    public completeTask(task: Task): Observable<Task[]> {
+        return this.http.get(this.taskServiceUrl + 'completetask/' + task.id + this.filterQueryString())
             .share()
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    public removeTask(task: Task, filter: UserSettings): Observable<Task[]> {
-        return this.http.get(this.taskServiceUrl + 'removetask/' + task.id + '/' + filter.filter + '/' + filter.sortColumn + '/' + (filter.sortAsc ? "Asc" : "Desc"))
+    public removeTask(task: Task): Observable<Task[]> {
+        return this.http.get(this.taskServiceUrl + 'removetask/' + task.id + this.filterQueryString())
             .share()
             .map(this.extractData)
             .catch(this.handleError);
@@ -52,6 +53,11 @@ export class TaskService {
             });
         }
         return data;
+    }
+
+    private filterQueryString(): string {
+        let userSettings = this.userSettingsService.userSettings;
+        return '/' + userSettings.filter + '/' + userSettings.sortColumn + '/' + (userSettings.sortAsc ? "Asc" : "Desc");
     }
 
     private handleError (error: Response | any) {

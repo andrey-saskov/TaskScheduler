@@ -73,7 +73,7 @@ export class TaskListComponent implements OnInit {
         //     testtasks.push(new Task(i, 'sdfsdf ' + i, 'sdf sdf sdfsd fsd fsdf sdf sdf' + i, i, this.formatDate(new Date()), this.formatDate(new Date()), true, false));
         // }
 
-        this.taskService.getTasks(this.userSettingsService.userSettings).subscribe(
+        this.taskService.getTasks().subscribe(
             //tasks => { this.tasks = testtasks; },
             tasks => { this.tasks = tasks; },
             error => { console.log('Can\'t get data from server'); },
@@ -87,7 +87,7 @@ export class TaskListComponent implements OnInit {
     }
 
     protected onComplete(task: Task): void {
-        this.taskService.completeTask(task, this.userSettingsService.userSettings).subscribe(
+        this.taskService.completeTask(task).subscribe(
             tasks => { this.tasks = tasks; },
             error => { console.log('Can\'t get data from server'); },
             () => { this.updateService.updated.next( { action: ActionType.Complete } ); }
@@ -95,7 +95,7 @@ export class TaskListComponent implements OnInit {
     }
 
     protected onRemove(task: Task): void {
-        this.taskService.removeTask(task, this.userSettingsService.userSettings).subscribe(
+        this.taskService.removeTask(task).subscribe(
             tasks => { this.tasks = tasks; },
             error => { console.log('Can\'t get data from server'); },
             () => { this.updateService.updated.next( { action: ActionType.Remove } ); }
