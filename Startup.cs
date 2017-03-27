@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using WebApplicationBasic.Data;
-using WebApplicationBasic.Handlers;
+using WebApplicationBasic.Middleware.WebSocketManager;
 
 namespace WebApplicationBasic
 {
@@ -34,6 +34,8 @@ namespace WebApplicationBasic
         {
             services.AddLogging();
 
+            services.AddWebSocketManager();
+
             services.AddDbContext<ScheduledTaskContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -42,7 +44,7 @@ namespace WebApplicationBasic
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ScheduledTaskContext taskContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ScheduledTaskContext taskContext, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -61,7 +63,7 @@ namespace WebApplicationBasic
 
             app.UseStaticFiles();
             app.UseWebSockets();
-            app.Map("/ws", SocketHandler.Map);
+            app.MapWebSocketManager("/ws", serviceProvider.GetService<MulticastSocketHandler>());
             
             DbInitializer.Initialize(taskContext);
 
