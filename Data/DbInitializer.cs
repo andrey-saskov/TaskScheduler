@@ -16,10 +16,10 @@ namespace WebApplicationBasic.Data
                 return;   // DB has been seeded
             }
 
-            for (int i = 0; i < 5000; i++)
+            for (int i = 1; i <= 5000; i++)
             {
                 context.ScheduledTasks.Add(
-                    new ScheduledTask{Name = "Lorem ipsum", Description = "Tum, Quintus et Pomponius cum idem se velle dixissent, Piso exorsus est.", Priority = i % 100 + 1, CreationDate = DateTime.Now, ScheduledDate = DateTime.Now.AddDays(1), IsActive = i % 3 == 0}
+                    new ScheduledTask{Name = "Lorem ipsum " + i, Description = "Tum, Quintus et Pomponius cum idem se velle dixissent, Piso exorsus est.", Priority = i % 100 + 1, CreationDate = DateTime.Now, ScheduledDate = DateTime.Now.AddDays(1), IsActive = i % 3 != 0}
                 );
             }
             context.SaveChanges();
